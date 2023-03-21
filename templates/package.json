@@ -1,0 +1,12 @@
+{
+  "name": "project",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "docker-compose up --build",
+    "stop": "docker-compose down"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
