@@ -4,8 +4,8 @@
 import spawn from 'cross-spawn';
 import fs from 'fs';
 import path from 'path';
-import inquirer from 'inquirer';
-import chalk from 'chalk';
+// import inquirer from 'inquirer';
+// import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 
 // The first argument will be the project name.
@@ -21,8 +21,8 @@ fs.mkdirSync(projectDir, { recursive: true });
 // and the files we want to create.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const templateDir = path.resolve(__dirname, 'templates');
-console.log(chalk.red(templateDir));
-fs.cpSync(templateDir, projectDir, { recursive: true });
+fs.cpSync(path.resolve(templateDir, 'root'), projectDir, { recursive: true });
+fs.cpSync(path.resolve(templateDir, 'server'), path.resolve(projectDir, 'server'), { recursive: true });
 
 // It is good practice to have dotfiles stored in the
 // template without the dot (so they do not get picked
@@ -37,35 +37,36 @@ fs.renameSync(
   path.join(projectDir, 'github'),
   path.join(projectDir, '.github')
 );
+fs.renameSync(
+  path.join(projectDir, 'dockerignore'),
+  path.join(projectDir, '.dockerignore')
+);
 
-const questions = [
-  {
-    type: 'list',
-    name: 'mongo',
-    message: 'Do you need mongodb?',
-    choices: ['Yes', 'No'],
-    filter(val) {
-      return val.toLowerCase();
-    },
-  },
-];
+// const questions = [
+//   {
+//     type: 'list',
+//     name: 'mongo',
+//     message: 'Do you need mongodb?',
+//     choices: ['Yes', 'No'],
+//     filter(val) {
+//       return val.toLowerCase();
+//     },
+//   },
+// ];
 
-const answers = await inquirer
-  .prompt(questions)
-  .catch((error) => {
-    if (error.isTtyError) {
-      console.log(chalk.red('Error'))
-    } else {
-      console.log(chalk.red('Error'))
-    }
-  });
-
-const {default: projectPackageJson} = await import(`${path.join(projectDir, 'package.json')}`, { assert: { type: 'json' } });
-projectPackageJson.name = projectName;
-
-console.log(chalk.green(JSON.stringify(projectPackageJson, null, 2)));
+// const answers = await inquirer
+//   .prompt(questions)
+//   .catch((error) => {
+//     if (error.isTtyError) {
+//       console.log(chalk.red('Error'))
+//     } else {
+//       console.log(chalk.red('Error'))
+//     }
+//   });
 
 // Update the project's package.json with the new project name
+const {default: projectPackageJson} = await import(`${path.join(projectDir, 'package.json')}`, { assert: { type: 'json' } });
+projectPackageJson.name = projectName;
 
 fs.writeFileSync(
   path.join(projectDir, 'package.json'),
@@ -87,6 +88,16 @@ spawn.sync('npx', ['--workspace=client', 'install-peerdeps', '-D', 'eslint-confi
 spawn.sync('npm', ['i', '--workspace=server', 'express', 'dotenv', 'cors'], { stdio: 'inherit' });
 spawn.sync('npm', ['i', '--workspace=server', '-D', 'nodemon'], { stdio: 'inherit' });
 spawn.sync('npx', ['--workspace=server', 'install-peerdeps', '-D', 'eslint-config-airbnb-base'], { stdio: 'inherit' });
+
+fs.rmSync(path.resolve(projectDir, 'client', 'src'), { recursive: true })
+fs.rmSync(path.resolve(projectDir, 'client', 'public'), { recursive: true })
+fs.mkdirSync(path.resolve(projectDir, 'client', 'public'));
+fs.mkdirSync(path.resolve(projectDir, 'client', 'src'));
+fs.cpSync(path.resolve(templateDir, 'client', 'src'), path.resolve(projectDir, 'client', 'src'), { recursive: true });
+fs.cpSync(path.resolve(templateDir, 'client', 'root'), path.resolve(projectDir, 'client'), { recursive: true });
+fs.cpSync(path.resolve(projectDir, 'node_modules', '@gouvfr', 'dsfr', 'dist', 'fonts'), path.resolve(projectDir, 'client', 'public', 'fonts'), { recursive: true });
+fs.cpSync(path.resolve(projectDir, 'node_modules', '@gouvfr', 'dsfr', 'dist', 'icons'), path.resolve(projectDir, 'client', 'public', 'icons'), { recursive: true });
+fs.cpSync(path.resolve(projectDir, 'node_modules', '@gouvfr', 'dsfr', 'dist', 'favicon'), path.resolve(projectDir, 'client', 'public'), { recursive: true });
 
 console.log('Success! Your new project is ready.');
 console.log(`Created ${projectName} at ${projectDir}`);

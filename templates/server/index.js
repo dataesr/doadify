@@ -14,9 +14,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // SERVE REACT BUILD
-app.use(express.static(path.join(path.resolve(), '/client/dist')));
+app.use(express.static(path.join(path.resolve(), 'dist')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(path.resolve(), '/client/dist/index.html'));
+  res.sendFile(path.join(path.resolve(), 'dist/index.html'));
 });
 
 async function cleanup() {
@@ -30,9 +30,9 @@ process.on('SIGTERM', cleanup);
 
 function start(port) {
   httpServer = app.listen(port, () => {
-    console.log('Server started. Port is 3000');
+    console.log('Server started');
     app.isReady = true;
   });
 }
 
-start(3000);
+start(process.env.PORT || 3000);
