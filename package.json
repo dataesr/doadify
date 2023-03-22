@@ -1,5 +1,5 @@
 {
-  "name": "@folland87/doadify",
+  "name": "@dataesr/doadify",
   "version": "0.0.3",
   "description": "A template generator for react application",
   "type": "module",
