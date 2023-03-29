@@ -5,7 +5,7 @@ Start a new project:
 
 ```
 npx @dataesr/doadify <folderName>
-cd <folderName> && npm start
+cd <folderName> && npm i && npm run dev
 ```
 
 Edit github workflows
