@@ -15,10 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🏷️ Get tag
-        id: tag
-        run: echo "tag=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-
       - name: Create changelog text
         id: changelog
         uses: loopwerk/tag-changelog@v1
@@ -27,20 +23,16 @@ jobs:
 
       - name: 📦 Create release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: ${{ steps.tag.outputs.tag }}
-          body: "${{ steps.changelog.outputs.changes }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          #tag_name: ${{ steps.tag.outputs.tag }}
 
   publish:
     needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
           node-version: 18

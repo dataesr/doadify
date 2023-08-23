@@ -12,4 +12,8 @@ Edit github workflows
 
 ## Fullstack or not ?
 
-During the Doadify installation process, you will be ask if you need a server or not.
+During the Doadify installation process, you will be asked if you need a server or not.
+
+## Release
+
+To create a new NPM release, simply create and push a new tag or run `npm version [patch|minor|major] &&  git push origin --tags`.
