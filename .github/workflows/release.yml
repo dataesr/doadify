@@ -29,6 +29,7 @@ jobs:
           #tag_name: ${{ steps.tag.outputs.tag }}
 
   publish:
+    name: Publish release on NPM
     needs: release
     runs-on: ubuntu-latest
     steps:
@@ -44,6 +45,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   notify:
+    name: Notify
     needs: publish
     if: always()
     runs-on: ubuntu-latest

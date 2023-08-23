@@ -29,7 +29,7 @@ async function scaffoldServer(projectName) {
 
   // Rename the dotfiles after we have copied them over to the new project directory.
   fs.renameSync(path.join(projectDir, '_github'), path.join(projectDir, '.github'));
-  fs.renameSync(path.join(projectDir, '_dockerignore'), path.join(projectDir, '..dockerignore'));
+  fs.renameSync(path.join(projectDir, '_dockerignore'), path.join(projectDir, '.dockerignore'));
   const clientDir = path.resolve(projectDir, 'client');
   fs.renameSync(path.join(clientDir, '_env'), path.join(clientDir, '.env'));
   fs.renameSync(path.join(clientDir, '_env.staging'), path.join(clientDir, '.env.staging'));
