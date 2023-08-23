@@ -10,26 +10,29 @@ jobs:
     name: Release new version
     runs-on: ubuntu-latest
     steps:
-      - name: Check Out Repo
+      - name: 🏁 Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Get version
-        id: version
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: 🏷️ Get tag
+        id: tag
+        run: echo "tag=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+
       - name: Create changelog text
         id: changelog
         uses: loopwerk/tag-changelog@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Release
+
+      - name: 📦 Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          release_name: ${{ steps.version.outputs.tag }}
+          tag_name: ${{ steps.tag.outputs.tag }}
+          release_name: ${{ steps.tag.outputs.tag }}
           body: "${{ steps.changelog.outputs.changes }}"
 
   publish:
@@ -40,7 +43,7 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: 18
           registry-url: 'https://registry.npmjs.org'
           scope: '@dataesr'
       - run: npm ci

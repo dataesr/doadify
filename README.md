@@ -10,6 +10,6 @@ cd <folderName> && npm i && npm run start
 
 Edit github workflows
 
-## Fullstack or not
+## Fullstack or not ?
 
 During the Doadify installation process, you will be ask if you need a server or not.
