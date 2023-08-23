@@ -27,8 +27,9 @@ async function scaffoldServer(projectName) {
     JSON.stringify(projectPackageJson, null, 2)
   );
 
-  // rename the dotfiles after we have copied them over to the new project directory.
+  // Rename the dotfiles after we have copied them over to the new project directory.
   fs.renameSync(path.join(projectDir, '_github'), path.join(projectDir, '.github'));
+  fs.renameSync(path.join(projectDir, '_dockerignore'), path.join(projectDir, '..dockerignore'));
   const clientDir = path.resolve(projectDir, 'client');
   fs.renameSync(path.join(clientDir, '_env'), path.join(clientDir, '.env'));
   fs.renameSync(path.join(clientDir, '_env.staging'), path.join(clientDir, '.env.staging'));
@@ -38,7 +39,6 @@ async function scaffoldServer(projectName) {
   const serverDir = path.resolve(projectDir, 'server');
   fs.renameSync(path.join(serverDir, '_eslintrc'), path.join(serverDir, '.eslintrc'));
   fs.renameSync(path.join(serverDir, '_gitignore'), path.join(serverDir, '.gitignore'));
-  
 }
 
 async function scaffoldClient(projectName) {
@@ -101,7 +101,7 @@ if (answers.type === "no") {
   console.log(` To get started, run:`);
   console.log(chalk.italic(`  > cd ${projectName}`));
   console.log(chalk.italic(`  > npm install`));
-  console.log(chalk.italic(`  > npm run dev`));
+  console.log(chalk.italic(`  > npm run start`));
   console.log('-------------------------');
   console.log("");
   console.log("");
@@ -114,7 +114,7 @@ if (answers.type === "yes") {
   console.log(` To get started, run:`);
   console.log(chalk.italic(`  > cd ${projectName}`));
   console.log(chalk.italic(`  > npm install`));
-  console.log(chalk.italic(`  > npm run dev`));
+  console.log(chalk.italic(`  > npm run start`));
   console.log('-------------------------');
   console.log("");
   console.log("");

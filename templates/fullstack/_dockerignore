@@ -1,0 +1,15 @@
+# Github
+**/.git
+.github
+
+# Docker
+.dockerignore
+Dockerfile
+
+# NPM
+**/build
+**/node_modules
+npm-debug.log
+
+# Misc
+**/.DS_Store
