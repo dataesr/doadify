@@ -14,6 +14,6 @@ Edit github workflows
 
 During the Doadify installation process, you will be asked if you need a server or not.
 
-## create a new NPM release
+## Create a new NPM release
 
 `npm version [patch|minor|major] && git push origin --tags`.
