@@ -5,6 +5,9 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
+env:
+  DEPLOYMENT_URL: https://www.npmjs.com/package/@dataesr/doadify
+
 jobs:
   release:
     name: Release new version
@@ -52,6 +55,7 @@ jobs:
     steps:
       - uses: dataesr/mm-notifier-action@v1
         with:
+          deployment_url: ${{ env.DEPLOYMENT_URL }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          mattermost_webhook_url: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
           mattermost_channel: bots
+          mattermost_webhook_url: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
