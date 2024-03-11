@@ -16,4 +16,4 @@ During the Doadify installation process, you will be asked if you need a server 
 
 ## Create a new NPM release
 
-`npm version [patch|minor|major] && git push origin --tags`.
+`npm version [patch|minor|major] && git push origin main --tags`.
