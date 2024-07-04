@@ -1,5 +1,5 @@
 export default {
   logger: {
-    logLevel: process.env.LOG_LEVEL || 'info',
+    logLevel: process.env.LOG_LEVEL || "info",
   },
 };

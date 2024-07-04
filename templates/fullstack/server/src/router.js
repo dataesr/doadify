@@ -1,5 +1,5 @@
-import express from 'express';
-import helloRouter from './routes/hello';
+import express from "express";
+import helloRouter from "./routes/hello";
 
 const router = new express.Router();
 
