@@ -1,4 +1,4 @@
-import { Container, Text, Title } from '@dataesr/react-dsfr';
+import { Container, Title, Text } from "@dataesr/dsfr-plus";
 
 export default function Home() {
   return (
