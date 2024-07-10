@@ -16,9 +16,8 @@ async function scaffoldFullstack(projectName) {
   const templateDir = path.resolve(__dirname, "templates/fullstack");
   fs.cpSync(templateDir, projectDir, { recursive: true });
 
-  const publicDirSrc = path.join(templateDir, "client", "public");
-  const publicDirDest = path.join(projectDir, "client", "public");
-  fs.mkdirSync(publicDirDest, { recursive: true });
+  const publicDirSrc = path.resolve(__dirname, "templates/public");
+  const publicDirDest = path.join(projectDir,"public");
   fs.cpSync(publicDirSrc, publicDirDest, { recursive: true });
 
   // Update the project's package.json with the new project name
@@ -42,7 +41,7 @@ async function scaffoldFullstack(projectName) {
     path.join(projectDir, ".dockerignore")
   );
   const clientDir = path.resolve(projectDir, "client");
-  fs.renameSync(path.join(clientDir, "_env"), path.join(clientDir, ".env"));
+
   fs.renameSync(
     path.join(clientDir, "_env.staging"),
     path.join(clientDir, ".env.staging")
@@ -79,9 +78,8 @@ async function scaffoldClient(projectName) {
   const templateDir = path.resolve(__dirname, "templates/client");
   fs.cpSync(templateDir, projectDir, { recursive: true });
 
-  const publicDirSrc = path.join(templateDir, "public");
-  const publicDirDest = path.join(projectDir, "public");
-  fs.mkdirSync(publicDirDest, { recursive: true });
+  const publicDirSrc = path.resolve(__dirname, "templates/public");
+  const publicDirDest = path.join(projectDir,"public");
   fs.cpSync(publicDirSrc, publicDirDest, { recursive: true });
 
   // rename the dotfiles after we have copied them over to the new project directory.
@@ -89,7 +87,9 @@ async function scaffoldClient(projectName) {
     path.join(projectDir, "_github"),
     path.join(projectDir, ".github")
   );
-  fs.renameSync(path.join(projectDir, "_env"), path.join(projectDir, ".env"));
+  fs.renameSync(
+    path.join(projectDir, "_env"), 
+    path.join(projectDir, ".env"));
   fs.renameSync(
     path.join(projectDir, "_env.staging"),
     path.join(projectDir, ".env.staging")
