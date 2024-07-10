@@ -7,7 +7,7 @@ import inquirer from "inquirer";
 import chalk from "chalk";
 import { fileURLToPath } from "url";
 
-async function scaffoldServer(projectName) {
+async function scaffoldFullstack(projectName) {
   const currentDir = process.cwd();
   const projectDir = path.resolve(currentDir, projectName);
   fs.mkdirSync(projectDir, { recursive: true });
@@ -15,6 +15,11 @@ async function scaffoldServer(projectName) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const templateDir = path.resolve(__dirname, "templates/fullstack");
   fs.cpSync(templateDir, projectDir, { recursive: true });
+
+  const publicDirSrc = path.join(templateDir, "client", "public");
+  const publicDirDest = path.join(projectDir, "client", "public");
+  fs.mkdirSync(publicDirDest, { recursive: true });
+  fs.cpSync(publicDirSrc, publicDirDest, { recursive: true });
 
   // Update the project's package.json with the new project name
   const { default: projectPackageJson } = await import(
@@ -73,6 +78,11 @@ async function scaffoldClient(projectName) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const templateDir = path.resolve(__dirname, "templates/client");
   fs.cpSync(templateDir, projectDir, { recursive: true });
+
+  const publicDirSrc = path.join(templateDir, "public");
+  const publicDirDest = path.join(projectDir, "public");
+  fs.mkdirSync(publicDirDest, { recursive: true });
+  fs.cpSync(publicDirSrc, publicDirDest, { recursive: true });
 
   // rename the dotfiles after we have copied them over to the new project directory.
   fs.renameSync(
@@ -146,7 +156,7 @@ if (answers.type === "no") {
   console.log("");
 }
 if (answers.type === "yes") {
-  await scaffoldServer(projectName);
+  await scaffoldFullstack(projectName);
   console.log("");
   console.log(
     chalk.yellow.bold(`Fullstack project scaffolded in '/${projectName}'`)
