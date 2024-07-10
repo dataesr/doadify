@@ -4,7 +4,7 @@
   "description": "A template generator for react application",
   "type": "module",
   "bin": {
-    "doadify": "./index.ts"
+    "doadify": "./index.js"
   },
   "keywords": [
     "templates",
