@@ -8,6 +8,7 @@
     "server"
   ],
   "dependencies": {
+    "@dataesr/dsfr-plus": "^0.4.0",
     "concurrently": "^8.0.1"
   },
   "scripts": {
