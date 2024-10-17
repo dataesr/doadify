@@ -26,9 +26,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(express.static(path.join(path.resolve(), "dist")));
 }
 
-app.get("/api/docs/specs.json", (req, res) =>
-  res.status(200).json(apiDocument)
-);
+app.get("/api/docs/specs.json", (_, res) => res.status(200).json(apiDocument));
 
 app.use(
   OAV.middleware({
@@ -42,5 +40,13 @@ app.use(
 app.use("/api", router);
 
 app.use(handleErrors);
+
+app.get("/*", (_, res) => {
+  res.sendFile(path.join(path.resolve(), "dist", "index.html"), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 
 export default app;
